@@ -13,8 +13,8 @@
       "display": "block",
       "top": "0",
       "left": "0px",
-      "width": "40px",
-      "height": "25px",
+      "width": "40%",
+      "height": "100%",
       "position":"absolute",
       "background": "#DCDCDC repeat-x scroll 0 -1px",
       "background-image": "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAbCAYAAAC9WOV0AAAAbElEQVR42gXBywaAQABA0fv/u1Z9VUUjkUhEYlRjpMfmdg5FUch5nlJVldR1LU3TSNu2EkKQruuk73sZhkHGcZRpmmSeZ1mWRdZ1lW3bJMYo+77LcRySUpKcs1zXJfd9y/M88r6vfN8nZVn6Ax68YWmk5yF8AAAAAElFTkSuQmCC)"
@@ -26,10 +26,10 @@
       "display": "block",
       "position": "absolute",
       "top": "0",
-      "left": "-60px",
-      "width": "60px",
-      "padding-right":"5px",
-      "height": "25px",
+      "left": "-60%",
+      "width": "60%",
+      "padding-right":"5%",
+      "height": "100%",
       "background": "#5292F1 repeat-x scroll 0 0",
       "color": "#FFF",
       "background-image": "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAaCAYAAAB2BDbRAAAAiklEQVR42mPQit78n8Eg7eh/BuP8K/8ZzIruAImSu/8ZLMruAYnyB/8ZrCofAYmap/8ZbOqeAYmGF/8Z7Jpe/2dwaH3zn8G3//1/hqBJH/8zhE37/J8hauaX/wxxc77+Z0ic//0/Q9qiH/8Zspb+/M+Qu/zXf4aiVb//MxSv+fOfoXQtkAjqvP4fACJWR0qqiNxRAAAAAElFTkSuQmCC)"
@@ -40,10 +40,10 @@
       "display": "block",
       "position": "absolute",
       "top": "0px",
-      "left": "60px",
-      "width": "60px",
-      "padding-left": "40px",
-      "height": "25px",
+      "left": "60%",
+      "width": "60%",
+      "padding-left": "40%",
+      "height": "100%",
       "color": "#7F7F7F"
   },
   main_css = {
@@ -57,12 +57,12 @@
     ".i_cb": {
         "width": "100px",
         "height": "25px",
+        "line-height":"25px",
         "display": "inline-block",
         "overflow": "hidden",
         "background-color": "transparent",
         "text-indent": "-9999px",
         "position": "relative",
-        "line-height": "25px",
         "text-decoration": "none",
         "border": "1px solid #BFBFBF",
         "font-family": "Arial, Helvetica, Verdana",
@@ -75,7 +75,7 @@
     ".i_cb .slider:after": handle_css,
     ".i_cb .slider:before": on_css,
     ".i_cb .slider": off_css,
-    ".i_cb.off .slider":{
+    ".i_cb.unchecked .slider":{
       "background": "#F1F1F1 repeat-x scroll 0 -1px",
       "background-image": "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAaCAYAAAB2BDbRAAAAUklEQVR42i3Hyw3AIAwE0W3cbdEGJXAEGSPOfDeJ4jk8aSAiRAiBiDESKSUi50yUUhxVJWqtjpkRrTWi9+6MMYg5J7HWIvbezjnHufc6fPv59gHbaGGcmzcb7AAAAABJRU5ErkJggg==)"
     }
@@ -85,7 +85,7 @@
     ".i_cb .slider:after":{"_vendor_border-radius": "4px"},
     ".i_cb .slider":{"_vendor_border-radius": "6px", "background":"transparent"},
     ".i_cb .slider:before":{"_vendor_border-radius": "4px"},
-    ".i_cb.off .slider:before":{"padding-right":"0px"}
+    ".i_cb.unchecked .slider:before":{"padding-right":"0px"}
   },
   text_shadow_css = {
     ".i_cb": {"_vendor_text-shadow": "1px 1px 2px rgba(0, 0, 0, 0.3)"}
@@ -97,13 +97,12 @@
   },
   transform_css = {
     ".i_cb .slider": {
-      "_vendor_transition": "all "+dur+"ms linear"
+      "_vendor_transition": "all "+dur+"ms linear",
+      "_vendor_backface-visibility": "hidden",
+      "_vendor_transform": "translateX(0)"
     },
-    ".i_cb .slider": {
-      "_vendor_transform": "translateX(0px)"
-    },
-    ".i_cb.off .slider": {
-      "_vendor_transform": "translateX(-60px)"
+    ".i_cb.unchecked .slider": {
+      "_vendor_transform": "translateX(-60%)"
     }
   };
   
@@ -130,7 +129,10 @@
   }
   
   $.fn.iCheckbox = function(settings) {
-    var config = {};
+    var config = {
+      link_class:"",
+      height:null
+    };
     if(settings) { config = $.extend(config, settings); }
     
     this.each(function() {
@@ -140,33 +142,46 @@
         
       $this.addClass("i_cb_orig");
       var el_string = (supports_pseudo ? 
-        '<a class="i_cb" href="#"><span class="slider">OFF</span></a>' :
-        '<a class="i_cb" href="#"><span class="slider no_ps"><span class="on">ON</span><span class="handle">[]</span><span class="off">OFF</span></span></a>'
+        '<a class="i_cb'+ " " + config.link_class + '" href="#"><span class="slider">OFF</span></a>' :
+        '<a class="i_cb'+ " " + config.link_class + '" href="#"><span class="slider no_ps"><span class="on">ON</span><span class="handle">[]</span><span class="off">OFF</span></span></a>'
       );
-      var $el = $(el_string)[method]("off").bind("click", 
+      var $el = $(el_string)[method]("unchecked").bind("click", 
         function(e) { 
           e.preventDefault();
           var state = $this[0].checked = !$this[0].checked;
-          if(state) { $(this).removeClass("off");}
-          else { $(this).addClass("off"); }
+          if(state) { $(this).removeClass("unchecked");}
+          else { $(this).addClass("unchecked"); }
           
           if(!does_transform) {
             if(state) {
               $(this).find(".slider").animate({"margin-left":0}, dur);
             } else {
-              $(this).find(".slider").animate({"margin-left":"-60px"}, dur);
+              $(this).find(".slider").animate({"margin-left":"-60%"}, dur);
             }
           }
           
-        }).insertAfter($this);
+        });
+        
+        if(config.height) {
+          var height = parseInt(config.height, 10),
+              font_size = (height > 20 ? "16px" : "10px");
+          
+          $el.css({height:config.height, "line-height":parseInt(config.height, 10)+"px", "font-size":font_size});
+        }
+        if(config.width) {
+          $el.css({width:config.width});
+        }
         
         if(!does_transform) {
           if(state) {
             $el.find(".slider").css({"margin-left":0});
           } else {
-            $el.find(".slider").css({"margin-left":"-60px"});
+            $el.find(".slider").css({"margin-left":"-60%"});
           }
         }
+
+        $el.insertAfter($this);
+        
         
     });
     
