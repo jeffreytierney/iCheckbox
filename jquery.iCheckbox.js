@@ -135,7 +135,7 @@
     
     this.each(function() {
       var $this = $(this),
-          state = $this[0].checked = !$this[0].checked,
+          state = $this[0].checked,
           method = (state ? "removeClass" : "addClass");
         
       $this.addClass("i_cb_orig");
@@ -143,7 +143,7 @@
         '<a class="i_cb" href="#"><span class="slider">OFF</span></a>' :
         '<a class="i_cb" href="#"><span class="slider no_ps"><span class="on">ON</span><span class="handle">[]</span><span class="off">OFF</span></span></a>'
       );
-      $(el_string).bind("click", 
+      var $el = $(el_string)[method]("off").bind("click", 
         function(e) { 
           e.preventDefault();
           var state = $this[0].checked = !$this[0].checked;
@@ -158,7 +158,16 @@
             }
           }
           
-        }).insertAfter($this)[method]("off");
+        }).insertAfter($this);
+        
+        if(!does_transform) {
+          if(state) {
+            $el.find(".slider").css({"margin-left":0});
+          } else {
+            $el.find(".slider").css({"margin-left":"-60px"});
+          }
+        }
+        
     });
     
     return this;
