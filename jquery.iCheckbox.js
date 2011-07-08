@@ -16,7 +16,7 @@
       "width": "40%",
       "height": "100%",
       "position":"absolute",
-      "background": "#DCDCDC repeat-x scroll 0 -1px",
+      "background": "#DCDCDC repeat-x scroll 0 0",
       "background-image": "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAbCAYAAAC9WOV0AAAAbElEQVR42gXBywaAQABA0fv/u1Z9VUUjkUhEYlRjpMfmdg5FUch5nlJVldR1LU3TSNu2EkKQruuk73sZhkHGcZRpmmSeZ1mWRdZ1lW3bJMYo+77LcRySUpKcs1zXJfd9y/M88r6vfN8nZVn6Ax68YWmk5yF8AAAAAElFTkSuQmCC)"
   },
   on_css = {
@@ -95,6 +95,11 @@
     ".i_cb .slider": {"_vendor_box-shadow": "0px 0px 3px rgba(0, 0, 0, 0.5)"}
     
   },
+  background_size_css = {
+    ".i_cb .slider:after": {"_vendor_background-size":"1px 100% !important"},
+    ".i_cb .slider:before": {"_vendor_background-size":"1px 100% !important"},
+    ".i_cb .slider": {"_vendor_background-size":"1px 100% !important"}
+  },
   transform_css = {
     ".i_cb .slider": {
       "_vendor_transition": "all "+dur+"ms linear",
@@ -110,6 +115,7 @@
   JSS.cssIf({prop:"border-radius", val:"5px"},border_radius_css);
   JSS.cssIf({prop:"text-shadow",val:"rgba(0,0,0,.5)"},text_shadow_css);
   JSS.cssIf({prop:"box-shadow",val:"rgba(0,0,0,.5)"},box_shadow_css);
+  JSS.cssIf({prop:"background-size",val:"1px 100%"},background_size_css);
   var does_transform = JSS.cssIf({prop:"transition",val:"translateX(0px)"},transform_css),
       // i hate browser sniffing, but IE7 is the only one i know of right now that doesnt support pseudo
       // and this is easier than making every browser do a test for it
