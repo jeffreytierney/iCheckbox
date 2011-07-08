@@ -7,6 +7,45 @@
   -1)}catch(i){}}}k.JSS={g:{},test:j,css:i,cssIf:function(c,b,a){a=c.else_css||a||"css"in c&&b;b=c.css||b;if(!c.prop||!c.val||!b)return null;(c=j(c))?i(b,c.style):a&&i(a);return c}};var m=/-([a-z])/ig,n=!!(navigator.userAgent.indexOf("MSIE 8")>-1)})(this);
   
   var dur = 150,
+  handle_css = {
+      "content":'"[]"',
+      "text-indent":"-9999px",
+      "display": "block",
+      "top": "0",
+      "left": "0px",
+      "width": "40px",
+      "height": "25px",
+      "position":"absolute",
+      "background": "#EFEFEF repeat-x scroll 0 -1px",
+      "background-image": "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAbCAYAAAC9WOV0AAAAbElEQVR42gXBywaAQABA0fv/u1Z9VUUjkUhEYlRjpMfmdg5FUch5nlJVldR1LU3TSNu2EkKQruuk73sZhkHGcZRpmmSeZ1mWRdZ1lW3bJMYo+77LcRySUpKcs1zXJfd9y/M88r6vfN8nZVn6Ax68YWmk5yF8AAAAAElFTkSuQmCC)"
+  },
+  on_css = {
+      "content": '"ON"',
+      "text-indent": "0",
+      "text-align":"center",
+      "display": "block",
+      "position": "absolute",
+      "top": "0",
+      "left": "-60px",
+      "width": "60px",
+      "padding-right":"5px",
+      "height": "25px",
+      "background": "#5292F1 repeat-x scroll 0 0",
+      "color": "#FFF",
+      "background-image": "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAaCAYAAAB2BDbRAAAAiklEQVR42mPQit78n8Eg7eh/BuP8K/8ZzIruAImSu/8ZLMruAYnyB/8ZrCofAYmap/8ZbOqeAYmGF/8Z7Jpe/2dwaH3zn8G3//1/hqBJH/8zhE37/J8hauaX/wxxc77+Z0ic//0/Q9qiH/8Zspb+/M+Qu/zXf4aiVb//MxSv+fOfoXQtkAjqvP4fACJWR0qqiNxRAAAAAElFTkSuQmCC)"
+  },
+  off_css = {
+      "text-indent": "0",
+      "text-align":"center",
+      "display": "block",
+      "position": "absolute",
+      "top": "0px",
+      "left": "60px",
+      "width": "60px",
+      "padding-left": "40px",
+      "height": "25px",
+      "color": "#7F7F7F"
+  },
   main_css = {
     ".i_cb_orig": {
       "position":"absolute !important",
@@ -33,61 +72,20 @@
         "vertical-align":"middle",
         "z-index":"100"
     },
-    ".i_cb .slider:after": {
-        "content":'"[]"',
-        "text-indent":"-9999px",
-        "display": "block",
-        "top": "0",
-        "left": "0px",
-        "width": "40px",
-        "height": "25px",
-        "z-index":"-1",
-        "position":"absolute",
-        "background": "#EFEFEF repeat-x scroll 0 -1px",
-        "background-image": "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAbCAYAAAC9WOV0AAAAbElEQVR42gXBywaAQABA0fv/u1Z9VUUjkUhEYlRjpMfmdg5FUch5nlJVldR1LU3TSNu2EkKQruuk73sZhkHGcZRpmmSeZ1mWRdZ1lW3bJMYo+77LcRySUpKcs1zXJfd9y/M88r6vfN8nZVn6Ax68YWmk5yF8AAAAAElFTkSuQmCC)"
-    },
-    ".i_cb .slider:before": {
-        "content": '"ON"',
-        "text-indent": "0",
-        "text-align":"center",
-        "display": "block",
-        "position": "absolute",
-        "top": "0",
-        "left": "-60px",
-        "width": "60px",
-        "padding-right":"5px",
-        "height": "25px",
-        "z-index":"-1",
-        "background": "#5292F1 repeat-x scroll 0 0",
-        "color": "#FFF",
-        "background-image": "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAaCAYAAAB2BDbRAAAAiklEQVR42mPQit78n8Eg7eh/BuP8K/8ZzIruAImSu/8ZLMruAYnyB/8ZrCofAYmap/8ZbOqeAYmGF/8Z7Jpe/2dwaH3zn8G3//1/hqBJH/8zhE37/J8hauaX/wxxc77+Z0ic//0/Q9qiH/8Zspb+/M+Qu/zXf4aiVb//MxSv+fOfoXQtkAjqvP4fACJWR0qqiNxRAAAAAElFTkSuQmCC)"
-    },
-    ".i_cb .slider": {
-        /*"content": '"OFF"',*/
-        "text-indent": "0",
-        "text-align":"center",
-        "display": "block",
-        "position": "absolute",
-        "top": "0",
-        "left": "60px",
-        "width": "60px",
-        "padding-left": "40px",
-        "height": "25px",
-        "z-index":"-1",
-        "color": "#7F7F7F"
-    }
-    
-  },
-  border_radius_css = {
-    ".i_cb":{"_vendor_border-radius": "5px"},
-    ".i_cb .on, .i_cb .off, .i_cb .slider:after":{"_vendor_border-radius": "4px"},
-    ".i_cb .slider":{"_vendor_border-radius": "6px", "background":"transparent"},
-    ".i_cb .slider:before":{"_vendor_border-radius": "4px"},
-    ".i_cb.off .slider:before":{"padding-right":"0px"},
+    ".i_cb .slider:after": handle_css,
+    ".i_cb .slider:before": on_css,
+    ".i_cb .slider": off_css,
     ".i_cb.off .slider":{
       "background": "#F1F1F1 repeat-x scroll 0 -1px",
       "background-image": "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAaCAYAAAB2BDbRAAAAUklEQVR42i3Hyw3AIAwE0W3cbdEGJXAEGSPOfDeJ4jk8aSAiRAiBiDESKSUi50yUUhxVJWqtjpkRrTWi9+6MMYg5J7HWIvbezjnHufc6fPv59gHbaGGcmzcb7AAAAABJRU5ErkJggg==)"
     }
+  },
+  border_radius_css = {
+    ".i_cb":{"_vendor_border-radius": "5px"},
+    ".i_cb .slider:after":{"_vendor_border-radius": "4px"},
+    ".i_cb .slider":{"_vendor_border-radius": "6px", "background":"transparent"},
+    ".i_cb .slider:before":{"_vendor_border-radius": "4px"},
+    ".i_cb.off .slider:before":{"padding-right":"0px"}
   },
   text_shadow_css = {
     ".i_cb": {"_vendor_text-shadow": "1px 1px 2px rgba(0, 0, 0, 0.3)"}
@@ -98,7 +96,7 @@
     
   },
   transform_css = {
-    ".i_cb .slider, .i_cb .on, .i_cb .off": {
+    ".i_cb .slider": {
       "_vendor_transition": "all "+dur+"ms linear"
     },
     ".i_cb .slider": {
@@ -107,22 +105,29 @@
     ".i_cb.off .slider": {
       "_vendor_transform": "translateX(-60px)"
     }
-  },
-  no_transform_css = {
-    ".i_cb.off .off,.i_cb.off .on": {
-      "margin-left" : "-100px"
-    },
-    ".i_cb.off .slider": {
-      "margin-left": "-60px"
-    }
-    
   };
   
   JSS.css(main_css);
   JSS.cssIf({prop:"border-radius", val:"5px"},border_radius_css);
   JSS.cssIf({prop:"text-shadow",val:"rgba(0,0,0,.5)"},text_shadow_css);
   JSS.cssIf({prop:"box-shadow",val:"rgba(0,0,0,.5)"},box_shadow_css);
-  var does_transform = JSS.cssIf({prop:"transition",val:"translateX(0px)"},transform_css);
+  var does_transform = JSS.cssIf({prop:"transition",val:"translateX(0px)"},transform_css),
+      // i hate browser sniffing, but IE7 is the only one i know of right now that doesnt support pseudo
+      // and this is easier than making every browser do a test for it
+      // but i will move to that soon (i think)
+      supports_pseudo = !(navigator.userAgent.indexOf("MSIE 7") > -1);
+  
+  
+  if(!supports_pseudo) {
+    off_css["left"] = "0";
+    var multi_el_css = {
+      ".i_cb .off": off_css,
+      ".i_cb .on": on_css,
+      ".i_cb .handle": handle_css
+    };
+    
+    JSS.css(multi_el_css); 
+  }
   
   $.fn.iCheckbox = function(settings) {
     var config = {};
@@ -134,7 +139,11 @@
           method = (state ? "removeClass" : "addClass");
         
       $this.addClass("i_cb_orig");
-      $('<a class="i_cb" href="#"><span class="slider">OFF</span></a>').bind("click", 
+      var el_string = (supports_pseudo ? 
+        '<a class="i_cb" href="#"><span class="slider">OFF</span></a>' :
+        '<a class="i_cb" href="#"><span class="slider no_ps"><span class="on">ON</span><span class="handle">[]</span><span class="off">OFF</span></span></a>'
+      );
+      $(el_string).bind("click", 
         function(e) { 
           e.preventDefault();
           var state = $this[0].checked = !$this[0].checked;
