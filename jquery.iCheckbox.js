@@ -28,7 +28,7 @@
       "top": "0",
       "left": "-60%",
       "width": "60%",
-      "padding-right":"5%",
+      "padding-right":"40%",
       "height": "100%",
       "background": "#5292F1 repeat-x scroll 0 0",
       "color": "#FFF",
