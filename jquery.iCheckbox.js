@@ -14,7 +14,7 @@
     ".i_cb": {
         "width": "100px",
         "height": "25px",
-        "display": "block",
+        "display": "inline-block",
         "overflow": "hidden",
         "background-color": "transparent",
         "text-indent": "-9999px",
