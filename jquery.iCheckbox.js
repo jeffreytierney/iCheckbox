@@ -16,7 +16,7 @@
       "width": "40px",
       "height": "25px",
       "position":"absolute",
-      "background": "#EFEFEF repeat-x scroll 0 -1px",
+      "background": "#DCDCDC repeat-x scroll 0 -1px",
       "background-image": "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAbCAYAAAC9WOV0AAAAbElEQVR42gXBywaAQABA0fv/u1Z9VUUjkUhEYlRjpMfmdg5FUch5nlJVldR1LU3TSNu2EkKQruuk73sZhkHGcZRpmmSeZ1mWRdZ1lW3bJMYo+77LcRySUpKcs1zXJfd9y/M88r6vfN8nZVn6Ax68YWmk5yF8AAAAAElFTkSuQmCC)"
   },
   on_css = {
