@@ -151,9 +151,9 @@
         '<a class="i_cb'+ " " + config.link_class + '" href="#"><span class="slider no_ps"><span class="on">ON</span><span class="handle">[]</span><span class="off">OFF</span></span></a>'
       );
       var $el = $(el_string)[method]("unchecked").bind("click", 
-        function(e) { 
+        function(e, triggered) { 
           e.preventDefault();
-          var state = $this[0].checked = !$this[0].checked;
+          var state = $this[0].checked = (triggered ? $this[0].checked : !$this[0].checked);
           if(state) { $(this).removeClass("unchecked");}
           else { $(this).addClass("unchecked"); }
           
@@ -164,6 +164,7 @@
               $(this).find(".slider").animate({"margin-left":"-60%"}, dur);
             }
           }
+          if(!triggered) { $this.trigger("change", true); }
           
         });
 
@@ -188,6 +189,8 @@
             $el.find(".slider").css({"margin-left":"-60%"});
           }
         }
+        
+        $this.bind("change", function(e, triggered) { if(!triggered) { $el.trigger("click", true); } });
 
         $el.insertAfter($this);
         
