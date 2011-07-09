@@ -83,7 +83,7 @@
   border_radius_css = {
     ".i_cb":{"_vendor_border-radius": "5px"},
     ".i_cb .slider:after":{"_vendor_border-radius": "4px"},
-    ".i_cb .slider":{"_vendor_border-radius": "6px", "background":"transparent"},
+    ".i_cb .slider":{"_vendor_border-radius": "5px", "background":"transparent"},
     ".i_cb .slider:before":{"_vendor_border-radius": "4px"},
     ".i_cb.unchecked .slider:before":{"padding-right":"0px"}
   },
@@ -92,8 +92,7 @@
     
   },
   box_shadow_css = {
-    ".i_cb .slider": {"_vendor_box-shadow": "0px 0px 3px rgba(0, 0, 0, 0.5)"}
-    
+    ".i_cb .slider:after": {"_vendor_box-shadow": "0px 0px 3px rgba(0, 0, 0, 0.5)"}
   },
   background_size_css = {
     ".i_cb .slider:after": {"_vendor_background-size":"1px 100% !important"},
@@ -167,16 +166,20 @@
           }
           
         });
-        
+
+        var font_size, height, css = {};
+        if(config.font_size) { font_size = config.font_size; }
         if(config.height) {
-          var height = parseInt(config.height, 10),
-              font_size = (height > 20 ? "16px" : "10px");
+          height = parseInt(config.height, 10);
+          if (!font_size) { font_size = (height > 24 ? "16px" : (height > 18 ? "13px" : "10px")); }
           
-          $el.css({height:config.height, "line-height":parseInt(config.height, 10)+"px", "font-size":font_size});
-        }
-        if(config.width) {
-          $el.css({width:config.width});
-        }
+          css["height"] = config.height;
+          css["line-height"] = parseInt(config.height, 10)+"px";
+        };
+        css["font-size"] = font_size;
+        if(config.width) { css["width"] = config.width; }
+        
+        $el.css(css);
         
         if(!does_transform) {
           if(state) {
