@@ -133,22 +133,42 @@
     JSS.css(multi_el_css); 
   }
   
+  var custom_css={}, custom_css_counter=0;
+  
   $.fn.iCheckbox = function(settings) {
     var config = {
       link_class:"",
-      height:null
+      height:null,
+      width:null,
+      font_size:null,
+      on:null,
+      off:null
     };
     if(settings) { config = $.extend(config, settings); }
     
     this.each(function() {
       var $this = $(this),
           state = $this[0].checked,
-          method = (state ? "removeClass" : "addClass");
+          method = (state ? "removeClass" : "addClass"),
+          off_text = config.off || "OFF",
+          on_text = config.on || "ON",
+          on_text_class = "";
+          
+          
+      if(on_text != "ON" && supports_pseudo) {
+        if(custom_css.hasOwnProperty(on_text)) { on_text_class = custom_css[on_text]; }
+        else { 
+          on_text_class = custom_css[on_text] = "i_cb_"+custom_css_counter++;
+          var add_custom_css = {}; add_custom_css[".i_cb."+on_text_class+" .slider:before"] ={content:'"'+on_text+'"'};
+          JSS.css(add_custom_css);
+        }
+         
+      }
         
       $this.addClass("i_cb_orig");
       var el_string = (supports_pseudo ? 
-        '<a class="i_cb'+ " " + config.link_class + '" href="#"><span class="slider">OFF</span></a>' :
-        '<a class="i_cb'+ " " + config.link_class + '" href="#"><span class="slider no_ps"><span class="on">ON</span><span class="handle">[]</span><span class="off">OFF</span></span></a>'
+        '<a class="i_cb ' + config.link_class + ' '+ on_text_class +'" href="#"><span class="slider">'+off_text+'</span></a>' :
+        '<a class="i_cb ' + config.link_class + '" href="#"><span class="slider no_ps"><span class="on">'+on_text+'</span><span class="handle">[]</span><span class="off">'+off_text+'</span></span></a>'
       );
       var $el = $(el_string)[method]("unchecked").bind("click", 
         function(e, triggered) { 
